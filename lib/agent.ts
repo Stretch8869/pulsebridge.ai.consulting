@@ -1,3 +1,4 @@
+import { db } from './db';
 import { suggestedPackage } from './scoring';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
@@ -12,6 +13,18 @@ const fallbackQuestions = [
   'What monthly budget range feels realistic if the system clearly pays for itself?'
 ];
 
+async function getOpenAIKey() {
+  if (process.env.OPENAI_API_KEY) return process.env.OPENAI_API_KEY;
+  try {
+    const sql = db();
+    const rows = await sql`select value from app_secrets where key='openai_api_key' limit 1`;
+    const value = String(rows[0]?.value || '').trim();
+    return value || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export function deterministicReply(messages: Msg[]) {
   const userMessages = messages.filter(m => m.role === 'user');
   if (userMessages.length < fallbackQuestions.length) {
@@ -22,7 +35,7 @@ export function deterministicReply(messages: Msg[]) {
 }
 
 export async function agentReply(messages: Msg[]) {
-  const key = process.env.OPENAI_API_KEY;
+  const key = await getOpenAIKey();
   if (!key) return deterministicReply(messages);
   try {
     const model = process.env.OPENAI_MODEL || 'gpt-5-mini';
