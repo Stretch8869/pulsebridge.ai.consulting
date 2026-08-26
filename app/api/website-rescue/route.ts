@@ -7,6 +7,20 @@ export const dynamic = 'force-dynamic';
 
 const clean = (value: unknown, max = 500) => String(value ?? '').trim().slice(0, max);
 
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  if (url.searchParams.get('health') !== '1') {
+    return NextResponse.json({ ok: true, service: 'website-rescue' });
+  }
+  try {
+    const scan = await scanWebsite('https://example.com');
+    return NextResponse.json({ ok: true, outbound_fetch: true, score_engine: true, checked_url: scan.finalUrl, score: scan.score, checked_at: scan.fetchedAt });
+  } catch (error) {
+    console.error('website-rescue health check failed', error);
+    return NextResponse.json({ ok: false, outbound_fetch: false, score_engine: false }, { status: 503 });
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
