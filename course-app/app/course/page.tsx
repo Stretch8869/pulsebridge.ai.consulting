@@ -1,0 +1,1 @@
+import CoursePortal from '@/components/CoursePortal';export default function Page(){return <CoursePortal/>}
