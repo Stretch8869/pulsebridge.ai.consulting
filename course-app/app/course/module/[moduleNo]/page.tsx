@@ -1,0 +1,1 @@
+import ModuleView from '@/components/ModuleView';export default async function Page({params}:{params:Promise<{moduleNo:string}>}){const p=await params;const n=Number(p.moduleNo);return <ModuleView moduleNo={Number.isFinite(n)?n:0}/>} 
