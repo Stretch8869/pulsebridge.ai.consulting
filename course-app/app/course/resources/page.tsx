@@ -1,0 +1,1 @@
+import ResourceVault from '@/components/ResourceVault';export default function Page(){return <ResourceVault/>}
