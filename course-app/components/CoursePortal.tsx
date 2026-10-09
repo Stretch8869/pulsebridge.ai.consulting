@@ -1,0 +1,8 @@
+'use client';
+import {useEffect,useMemo,useState} from 'react';
+import Link from 'next/link';
+import {supabase} from '@/lib/supabaseClient';
+import type {Session} from '@supabase/supabase-js';
+type Mod={module_no:number;title:string;subtitle:string;challenge:string|null};type Prog={module_no:number;completed:boolean};
+const checkout='https://buy.stripe.com/fZu00l783eenbPed6z9Zm05';const shell={minHeight:'100vh',background:'linear-gradient(180deg,#050914 0%,#0b1220 48%,#050914 100%)',color:'#f8fafc',padding:'44px 18px 80px'} as const;const wrap={maxWidth:1100,margin:'0 auto'} as const;const card={background:'rgba(15,23,42,.88)',border:'1px solid rgba(148,163,184,.18)',borderRadius:20,padding:24,boxShadow:'0 18px 50px rgba(0,0,0,.18)'} as const;const input={width:'100%',boxSizing:'border-box' as const,padding:'13px 14px',borderRadius:10,border:'1px solid #334155',background:'#020617',color:'#f8fafc',fontSize:16,marginTop:8};const btn={display:'inline-block',padding:'13px 18px',border:0,borderRadius:12,background:'#22c55e',color:'#04120a',textDecoration:'none',fontWeight:900,cursor:'pointer'} as const;
+export default function CoursePortal(){const[session,setSession]=useState<Session|null>(null);const[loading,setLoading]=useState(true);const[email,setEmail]=useState('');const[password,setPassword]=useState('');const[error,setError]=useState('');const[notice,setNotice]=useState('');const[modules,setModules]=useState<Mod[]>([]);const[progress,setProgress]=useState<Prog[]>([]);const����q�^�
