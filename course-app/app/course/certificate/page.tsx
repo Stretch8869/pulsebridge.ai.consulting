@@ -1,0 +1,1 @@
+import Certificate from '@/components/Certificate';export default function Page(){return <Certificate/>}
